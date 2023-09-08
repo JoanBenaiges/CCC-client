@@ -1,11 +1,12 @@
 .overlay-background {
-    background-image: url('../../../../public/fondoreal.jpg');
-    /* position: fixed; */
+
+
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     margin: 0;
     padding: 0;
+
 
 
 }
@@ -14,25 +15,17 @@ h1 {
     color: white;
 }
 
-.users-page-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
 
-
-}
 
 .overlay-background::after {
+
     content: "";
     position: fixed;
     top: 0;
     left: 0;
     width: 200%;
     height: 200%;
-    z-index: -1;
+    z-index: -2;
     background-image: inherit;
     background-size: cover;
     background-repeat: no-repeat;

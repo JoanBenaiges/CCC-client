@@ -109,13 +109,14 @@ const DetailsUserPage = () => {
                             infiniteLoop={true}
                             selectedItem={0}
                             showThumbs={false}
-
                             emulateTouch={false}
                             centerMode={true}
                             width="70vw"
+                            interval={2000}
+                            autoPlay={true}
 
 
-                            centerSlidePercentage={33.33}
+                            centerSlidePercentage={70}
                         >
                             {user.dogs.map((dog, index) => (
 
@@ -137,7 +138,8 @@ const DetailsUserPage = () => {
                                             maxHeight: '200px',
                                             width: 'auto',
                                             height: 'auto',
-                                            objectFit: 'cover'
+                                            objectFit: 'cover',
+
                                         }}
                                         src={dog.images[0]}
                                         alt="Descripción de la imagen"
