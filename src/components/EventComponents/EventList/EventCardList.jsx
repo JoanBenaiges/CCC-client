@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Card, Button, Col, Carousel } from 'react-bootstrap'
 import './EventList.css'
+import { formatDate } from '../../../utils/Date.utils'
 
 
 const EventList = ({ title, cover, description, _id }) => {

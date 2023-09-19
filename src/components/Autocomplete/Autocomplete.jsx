@@ -4,8 +4,10 @@ import Geocode from "react-geocode";
 
 const MapsAutocomplete = ({ eventData, setEventData }) => {
 
+    const apiKey = `${import.meta.env.VITE_APP_GOOGLE_KEY}`
+
     const [value, setValue] = useState()
-    Geocode.setApiKey("AIzaSyDEfioKfYGi6udaByyFEojQ4p3fvjcP00Q")
+    Geocode.setApiKey(`${apiKey}`)
 
     value && Geocode
         .fromAddress(value.label)
@@ -22,7 +24,7 @@ const MapsAutocomplete = ({ eventData, setEventData }) => {
     return (
         <div>
             <GooglePlacesAutocomplete
-                apiKey="AIzaSyDEfioKfYGi6udaByyFEojQ4p3fvjcP00Q"
+                apiKey={`${apiKey}`}
                 selectProps={{
                     value,
                     onChange: setValue,

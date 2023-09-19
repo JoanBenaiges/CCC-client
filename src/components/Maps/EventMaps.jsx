@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-
 import { useEffect } from 'react';
+
+import dogMarker from '../../../public/market.jpg'
+
 const EventMaps = ({ event }) => {
+
+    const mapsKey = import.meta.env.VITE_APP_GOOGLE_KEY
 
     const containerStyle = {
         width: '500px',
@@ -12,11 +16,10 @@ const EventMaps = ({ event }) => {
         lat: event.location?.coordinates[1],
         lng: event.location?.coordinates[0]
     };
-    console.log(center)
 
     useEffect(() => {
         const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDEfioKfYGi6udaByyFEojQ4p3fvjcP00Q&libraries=places`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${mapsKey}&libraries=places`;
         script.async = true;
         script.defer = true;
         script.onload = initMap;
@@ -37,6 +40,10 @@ const EventMaps = ({ event }) => {
         new window.google.maps.Marker({
             position: center,
             map,
+            icon: {
+                url: dogMarker,
+                scaledSize: new window.google.maps.Size(40, 40),
+            },
         });
     }
     return (<div id="map" style={containerStyle} />)
