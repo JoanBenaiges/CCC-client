@@ -1,14 +1,24 @@
 import './Navigation.css'
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Button, Container, Navbar, DropdownButton } from "react-bootstrap";
 import { Link } from 'react-router-dom'
 import { ThemeContext } from "../../contexts/theme.context";
 import { AuthContext } from "../../contexts/auth.context";
+import sunIcon from '../../../public/sun-regular.svg'
+import moonIcon from '../../../public/moon-solid.svg'
 
 const Navigation = () => {
 
   const { theme, switchTheme } = useContext(ThemeContext)
   const { loggedUser, logout } = useContext(AuthContext)
+  const [themeIcon, setThemeIcon] = useState(theme === 'dark' ? moonIcon : sunIcon);
+
+  const toggleTheme = () => {
+    console.log('------>', loggedUser)
+    switchTheme();
+    setThemeIcon(theme === 'dark' ? sunIcon : moonIcon);
+  };
+
 
   return (
 
@@ -16,7 +26,10 @@ const Navigation = () => {
       bg={theme === 'dark' ? 'light' : 'dark'}
       data-bs-theme={theme === 'dark' ? 'light' : 'dark'}>
 
-      <Button className='ms-3' variant={theme} onClick={switchTheme}>Theme</Button>
+      <Button className='superTemita ms-3' variant={theme} onClick={toggleTheme}>
+        <img src={themeIcon} alt={theme === 'dark' ? 'Moon' : 'Sun'} width="24" height="24" />
+
+      </Button>
       <Container>
 
 

@@ -9,6 +9,10 @@
     color: rgb(109, 167, 22) !important;
 }
 
+.superTemita {
+    border-radius: 100% !important;
+}
+
 
 .nav-link:hover {
     color: rgb(109, 167, 22) !important;
