@@ -21,7 +21,7 @@ const DetailsUserPage = () => {
 
     useEffect(() => {
         loadUserProfile();
-    }, []);
+    }, [user_id]);
 
     const loadUserProfile = () => {
         usersService

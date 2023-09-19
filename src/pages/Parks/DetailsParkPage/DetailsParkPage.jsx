@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams, Link, useNavigate } from "react-router-dom"
 import parksService from '../../../services/parks.service'
 import { Container, Row, Col, Button } from 'react-bootstrap'
@@ -7,18 +7,17 @@ import Rating from "../../../components/Rating/AverageRating"
 import HandleVote from "../../../components/Rating/HandleVote"
 import Loader from "../../../components/Loader/Loader"
 import "./DetailsParkPage.css"
+import { AuthContext } from "../../../contexts/auth.context"
 
 const DetailsParkPage = () => {
 
     const { park_id } = useParams()
-
     const [park, setPark] = useState({})
-
     const [userRating, setUserRating] = useState(0);
-
     const navigate = useNavigate()
-
     const [isLoading, setIsLoading] = useState(true);
+    const { loggedUser } = useContext(AuthContext)
+    const filterUser = park.owner === loggedUser._id
 
     useEffect(() => {
         loadParkDetails()
@@ -32,17 +31,17 @@ const DetailsParkPage = () => {
             .finally(() => {
                 setIsLoading(false)
             })
+
     }
 
-    const isParkOwner = () => {
-        return owner === loggedUser._id;
-    }
+
 
     const handleDeletePark = () => {
         parksService
             .deletePark(park_id)
             .then(() => navigate('/park/list'))
             .catch((err) => console.log(err))
+
     }
 
     const handleUserRating = (newRating) => {
@@ -131,7 +130,7 @@ const DetailsParkPage = () => {
                         </Col>
 
                     </Row>
-                    {isParkOwner &&
+                    {(loggedUser.role === 'ADMIN') ? (
                         <Col className="edit-delete-button" md={12}>
                             <div className="event-actions">
                                 <Link to={`/park/edit/${park_id}`} className="btn btn-warning">
@@ -141,6 +140,9 @@ const DetailsParkPage = () => {
                                 <Button variant='danger' onClick={handleDeletePark}>Delete</Button>
                             </div>
                         </Col>
+                    ) : (
+                        <> </>
+                    )
                     }
                 </div>
 

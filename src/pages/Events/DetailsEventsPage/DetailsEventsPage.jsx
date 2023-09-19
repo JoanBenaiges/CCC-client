@@ -20,6 +20,7 @@ const DetailsEventsPage = () => {
     const [isRegistered, setIsRegistered] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const { emitMessage } = useContext(MessageContext)
+    const filterUser = event.owner === loggedUser._id
 
 
     useEffect(() => {
@@ -35,11 +36,10 @@ const DetailsEventsPage = () => {
             .finally(() => {
                 setIsLoading(false)
             })
+
     }
 
-    const isEventOwner = () => {
-        return owner === loggedUser._id;
-    }
+
 
     const handleDeleteEvent = () => {
         eventsService
@@ -128,17 +128,22 @@ const DetailsEventsPage = () => {
                         </>
                     )}
                 </Row>
-                {isEventOwner && (
-                    <Col className="edit-delete-button" md={12}>
-                        <div className="event-actions">
-                            <Link to={`/event/edit/${event_id}`} className="btn btn-warning">
-                                Edit Event
-                            </Link>
-                            <div className="button-separator"></div>
-                            <Button variant="danger" onClick={handleDeleteEvent}>Delete</Button>
-                        </div>
-                    </Col>
+
+                {(filterUser || loggedUser.role === 'ADMIN') ? (<Col className="edit-delete-button" md={12}>
+                    <div className="event-actions">
+                        <Link to={`/event/edit/${event_id}`} className="btn btn-warning">
+                            Edit Event
+                        </Link>
+                        <div className="button-separator"></div>
+                        <Button variant="danger" onClick={handleDeleteEvent}>Delete</Button>
+                    </div>
+                </Col>
+                ) : (
+                    <>
+                    </>
                 )}
+
+
             </div>
 
         </Container>
