@@ -4,18 +4,20 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import usersService from '../../../services/users.service';
 import dogService from '../../../services/dogs.service';
 import { Container, Card, Button } from "react-bootstrap";
-import { ThemeContext } from "../../../contexts/theme.context";
 import Loader from '../../../components/Loader/Loader';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Collapse from 'react-bootstrap/Collapse';
+import { AuthContext } from "../../../contexts/auth.context"
+
 
 const DetailsUserPage = () => {
-    const { theme, switchTheme } = useContext(ThemeContext);
+
+
+    const { loggedUser } = useContext(AuthContext)
     const { user_id } = useParams();
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
-    const [open, setOpen] = useState(false);
+    const filterUser = user_id === loggedUser._id
 
     useEffect(() => {
         loadUserProfile();
@@ -32,6 +34,7 @@ const DetailsUserPage = () => {
                 setUser(updatedUser);
             })
             .catch(err => console.log(err));
+
     };
 
     const handleCardClick = (index) => {
@@ -84,20 +87,25 @@ const DetailsUserPage = () => {
                                 </Card.Title>
                             </div>
 
-                            <div className=" mb-3 d-flex flex-row justify-content-center" >
-                                <Link
-                                    to={`/user/edit/${user_id}`}
-                                    className="me-3 btn btn-warning">
-                                    Edit Profile
-                                </Link>
-                                <Link
-                                    to="/dog/newdog"
-                                    className=" me-3 btn btn-dark"
-                                >
-                                    Create dog
-                                </Link>
-                                <Button className=' deletdDog' onClick={handleDeleteUser}>Delete</Button>
-                            </div>
+                            {(filterUser || loggedUser.role === 'ADMIN') ? (
+                                <div className=" mb-3 d-flex flex-row justify-content-center" >
+                                    <Link
+                                        to={`/user/edit/${user_id}`}
+                                        className="me-3 btn btn-warning">
+                                        Edit Profile
+                                    </Link>
+                                    <Link
+                                        to="/dog/newdog"
+                                        className=" me-3 btn btn-dark"
+                                    >
+                                        Create dog
+                                    </Link>
+                                    <Button className=' deletdDog' onClick={handleDeleteUser}>Delete</Button>
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+
                         </Container>
                     </div>
 
@@ -148,9 +156,13 @@ const DetailsUserPage = () => {
                                         <h3 className='mt-1'>{dog.name}</h3>
 
                                     </Card.Text>
-                                    <Button className='deletdDog' onClick={() => {
-                                        handleDeleteDog(user._id, dog._id)
-                                    }}>Delete</Button>
+                                    {(filterUser || loggedUser.role === 'ADMIN') ? (
+                                        <Button className='deletdDog' onClick={() => {
+                                            handleDeleteDog(user._id, dog._id)
+                                        }}>Delete</Button>
+                                    ) : (
+                                        <></>
+                                    )}
 
 
                                 </Card>
